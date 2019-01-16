@@ -9,6 +9,7 @@ class Gallery extends Component {
         this.state = {
             lightboxIsOpen: false,
             currentImage: 0,
+            imageIndex: 0,
         };
 
         this.closeLightbox = this.closeLightbox.bind(this);
@@ -22,38 +23,42 @@ class Gallery extends Component {
         event.preventDefault();
         this.setState({
             currentImage: index,
+            imageIndex: 0,
             lightboxIsOpen: true,
         });
     }
     closeLightbox () {
         this.setState({
             currentImage: 0,
+            imageIndex: 0,
             lightboxIsOpen: false,
         });
     }
     gotoPrevious () {
         this.setState({
-            currentImage: this.state.currentImage - 1,
+            imageIndex: this.state.imageIndex - 1,
         });
     }
     gotoNext () {
         this.setState({
-            currentImage: this.state.currentImage + 1,
+            imageIndex: this.state.imageIndex + 1,
         });
     }
     gotoImage (index) {
         this.setState({
             currentImage: index,
+            imageIndex: 0,
         });
     }
     handleClickImage () {
-        if (this.state.currentImage === this.props.images.length - 1) return;
+        console.log("hi@", this.state.imageIndex, this.props.images[this.state.currentImage].src.length - 1);
+        if (this.state.imageIndex === this.props.images[this.state.currentImage].src.length - 1) return;
 
         this.gotoNext();
     }
     renderGallery () {
         const { images } = this.props;
-
+        console.log(images, this.props);
         if (!images) return;
 
         const gallery = images.map((obj, i) => {
@@ -64,11 +69,12 @@ class Gallery extends Component {
                         href={obj.src}
                         onClick={(e) => this.openLightbox(i, e)}
                     >
-                        <img src={obj.thumbnail} />
+                        <img src={obj.thumbnail} alt=""/>
                     </a>
 
                     <h3>{obj.caption}</h3>
                     <p>{obj.description}</p>
+                    <a href={obj.link}>Link</a>
                 </article>
             );
         });
@@ -84,8 +90,8 @@ class Gallery extends Component {
             <div>
                 {this.renderGallery()}
                 <Lightbox
-                    currentImage={this.state.currentImage}
-                    images={this.props.images}
+                    currentImage={this.state.imageIndex}
+                    images={this.props.images[this.state.currentImage].src}
                     isOpen={this.state.lightboxIsOpen}
                     onClickImage={this.handleClickImage}
                     onClickNext={this.gotoNext}

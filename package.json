@@ -1,6 +1,6 @@
 {
-  "name": "gatsby-starter-default",
-  "description": "Gatsby default starter",
+  "name": "Personal Portfolio Site",
+  "description": "Connor Mullins' personal portfolio",
   "version": "1.0.0",
   "author": "Connor Mullins <connorpmullins@gmail.com>",
   "dependencies": {
